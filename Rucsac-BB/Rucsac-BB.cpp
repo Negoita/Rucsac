@@ -145,7 +145,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
 		// Parse the menu selections:
-		switch (wmId)
+		switch (wmId) 
 		{
 		case BN_CLICKED:
 			if ((HWND)lParam == butonDeAdaugare)
@@ -164,7 +164,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 				else 
 				{
-					wcscpy_s(buff, 300, buff3);
+					wcscpy_s(buff, 300, buff3); 
 					wcscat_s(buff, 300, L": V- ");
 					wcscat_s(buff, 300, buff1);
 					wcscat_s(buff, 300, L"; G- ");

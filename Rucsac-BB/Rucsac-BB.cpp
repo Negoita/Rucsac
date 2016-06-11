@@ -1,15 +1,21 @@
 // Rucsac-BB.cpp : Defines the entry point for the application.
 //
 
+
 #include "stdafx.h"
 #include "Rucsac-BB.h"
 
 #define MAX_LOADSTRING 100
 
 // Global Variables:
-HINSTANCE hInst;								// current instance
+							// current instance
 TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
+
+HWND greutateMaxima;
+HWND greutatea, valoarea, numele, butonDeAdaugare, butonDeStart;
+HWND lista;
+
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -28,6 +34,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
  	// TODO: Place code here.
 	MSG msg;
 	HACCEL hAccelTable;
+	v = (obiect*)malloc(100 * sizeof(obiect));
+	h = (obiect*)malloc(100 * sizeof(obiect));
+	nrObiecte = 0;
+
 
 	// Initialize global strings
 	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -137,6 +147,56 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// Parse the menu selections:
 		switch (wmId)
 		{
+		case BN_CLICKED:
+			if ((HWND)lParam == butonDeAdaugare)
+			{
+				WCHAR buff1[100];
+				WCHAR buff2[100];
+				WCHAR buff3[100];
+				WCHAR buff[300];
+				int numar;
+				GetWindowText(valoarea, buff1, 100);
+				GetWindowText(greutatea, buff2, 100);
+				GetWindowText(numele, buff3, 100);
+				if (wcsnlen_s(buff1, 100) == 0 || wcsnlen_s(buff2, 100) == 0 || wcsnlen_s(buff3, 100) == 0)
+				{
+					MessageBox(hWnd, L"Introduceti Valoarile!", L"ERROR", MB_ICONERROR);
+				}
+				else 
+				{
+					wcscpy_s(buff, 300, buff3);
+					wcscat_s(buff, 300, L": V- ");
+					wcscat_s(buff, 300, buff1);
+					wcscat_s(buff, 300, L"; G- ");
+					wcscat_s(buff, 300, buff2);
+					wcscat_s(buff, 300, L";");
+					SendMessage(lista, LB_ADDSTRING, NULL, (LPARAM)buff);
+
+					obiect obj;
+					numar = _wtoi(buff1);
+					obj.valoare = numar;
+					numar = _wtoi(buff2);
+					obj.greutate = numar;
+					obj.id = nrObiecte;
+					wcscpy_s(obj.nume, 20, buff3);
+					h[nrObiecte] = obj;
+					v[nrObiecte] = obj;
+					nrObiecte++;
+				}
+			}
+			if ((HWND)lParam == butonDeStart)
+			{
+				WCHAR buff[100];
+				GetWindowText(greutateMaxima, buff, 100);
+				if (wcsnlen_s(buff, 100) == 0)
+				{
+					MessageBox(hWnd, L"Introduceti Greutatea MAX!", L"ERROR", MB_ICONERROR);
+				}
+				capacitate = _wtoi(buff);
+
+				solve(v, h, nrObiecte, capacitate);
+			}
+			break;
 		case IDM_ABOUT:
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;
@@ -150,10 +210,34 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		// TODO: Add any drawing code here...
+		TextOut(hdc, 20, 22, L"Greutate MAX:", 14);
+
+		TextOut(hdc, 20, 102, L"Valoarea:", 10);
+		TextOut(hdc, 20, 132, L"Greutatea:", 11);
+		TextOut(hdc, 20, 162, L"Numele:", 8);
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
+		break;
+	case WM_CREATE:
+	{
+		greutateMaxima = CreateWindow(L"EDIT", L"", WS_CHILD | WS_VISIBLE | ES_NUMBER | WS_BORDER,
+			120, 20, 60, 20, hWnd, NULL, hInst, NULL);
+		
+		valoarea = CreateWindow(L"EDIT", L"", WS_CHILD | WS_VISIBLE | ES_NUMBER | WS_BORDER,
+			120, 100, 60, 20, hWnd, NULL, hInst, NULL);
+		greutatea = CreateWindow(L"EDIT", L"", WS_CHILD | WS_VISIBLE | ES_NUMBER | WS_BORDER,
+			120, 130, 60, 20, hWnd, NULL, hInst, NULL);
+		numele = CreateWindow(L"EDIT", L"", WS_CHILD | WS_VISIBLE | WS_BORDER,
+			120, 160, 60, 20, hWnd, NULL, hInst, NULL);
+		butonDeAdaugare = CreateWindow(L"BUTTON", L"Adauga", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | WS_BORDER,
+			190, 100, 100, 80, hWnd, NULL, hInst, NULL);
+		butonDeStart = CreateWindow(L"BUTTON", L"Alege", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | WS_BORDER,
+			190, 20, 100, 80, hWnd, NULL, hInst, NULL);
+		lista = CreateWindow(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL,
+			300, 20, 160, 400, hWnd, NULL, hInst, NULL);
+	}
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);

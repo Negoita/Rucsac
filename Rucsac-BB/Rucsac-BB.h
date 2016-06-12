@@ -11,6 +11,7 @@ struct Nod{
 	double score;
 	int *uz;
 	int *sol;
+	int pas;
 	int next_nod;
 	int real_score;
 	int incarcatura;
@@ -22,7 +23,7 @@ struct obiect{
 	int id;
 	int valoare;
 	int greutate;
-	WCHAR nume[20];
+	WCHAR nume[30];
 };
 
 struct coada {
@@ -94,7 +95,7 @@ void pop(coada **prim, coada **ultim)
 
 
 
-Nod * f(obiect v[], int n, int uz[], int capacitate)
+Nod * f(obiect v[], int n, int uz[], int capacitate,int pas)
 {
 	int suma = 0, real_score = 0;
 	int next, ok = 1;
@@ -138,6 +139,7 @@ Nod * f(obiect v[], int n, int uz[], int capacitate)
 			}
 		}
 		q->score = scor;
+		q->pas = pas + 1;
 		q->real_score = real_score;
 	}
 	return q;
@@ -152,7 +154,7 @@ INT_PTR CALLBACK Procedura(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 	case WM_INITDIALOG:
 	{
 		WCHAR buff[100];
-		WCHAR minibuff[20];
+		WCHAR minibuff[30];
 		int pr_max = 0;
 		for (int i = 0; i < nrObiecte; i++)
 			if (sol.sol[i] == 1)
@@ -182,7 +184,7 @@ void ordonare(obiect *v, int n)
 	obiect aux;
 	for (int i = 0; i < n - 1; i++)
 		for (int j = i + 1; j < n; j++)
-			if ((float)((v)[i].valoare / (v)[i].greutate) < (float)((v)[j].valoare / (v)[i].greutate))
+			if ((float)((v)[i].valoare / (v)[i].greutate) < (float)((v)[j].valoare / (v)[j].greutate))
 			{
 		aux = v[i];
 		v[i] = v[j];
@@ -198,7 +200,7 @@ void solve(obiect v[], obiect *h, int n, int capacitate)
 
 	int *uz = (int*)calloc(n, sizeof(int));
 	int max_score = 0;
-	Nod *q = f(v, n, uz, capacitate);
+	Nod *q = f(v, n, uz, capacitate,-1);
 	Nod p;
 	coada *prim, *ultim;
 	prim = ultim = 0;
@@ -221,11 +223,11 @@ void solve(obiect v[], obiect *h, int n, int capacitate)
 				if (capacitate - p.incarcatura >= v[p.next_nod].greutate)
 				{
 					p.uz[p.next_nod] = 1;
-					q = f(v, n, p.uz, capacitate);
+					q = f(v, n, p.uz, capacitate,p.pas);
 					push(&prim, &ultim, q);
 				}
 				p.uz[p.next_nod] = -1;
-				q = f(v, n, p.uz, capacitate);
+				q = f(v, n, p.uz, capacitate,p.pas);
 				push(&prim, &ultim, q);
 			}
 

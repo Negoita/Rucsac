@@ -150,15 +150,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case BN_CLICKED:
 			if ((HWND)lParam == butonDeAdaugare)
 			{
-				WCHAR buff1[100];
-				WCHAR buff2[100];
-				WCHAR buff3[100];
+				WCHAR buff1[300];
+				WCHAR buff2[300];
+				WCHAR buff3[300];
 				WCHAR buff[1000];
 				int numar;
-				GetWindowText(valoarea, buff1, 100);
-				GetWindowText(greutatea, buff2, 100);
-				GetWindowText(numele, buff3, 100);
-				if (wcsnlen_s(buff1, 100) == 0 || wcsnlen_s(buff2, 100) == 0 || wcsnlen_s(buff3, 100) == 0)
+				GetWindowText(valoarea, buff1, 300);
+				GetWindowText(greutatea, buff2, 300);
+				GetWindowText(numele, buff3, 300);
+				if (wcsnlen_s(buff1, 300) == 0 || wcsnlen_s(buff2, 300) == 0 || wcsnlen_s(buff3, 300) == 0)
 				{
 					MessageBox(hWnd, L"Introduceti Valoarile!", L"ERROR", MB_ICONERROR);
 				}
@@ -173,22 +173,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					SendMessage(lista, LB_ADDSTRING, NULL, (LPARAM)buff);
 
 					obiect obj;
+					
 					numar = _wtoi(buff1);
 					obj.valoare = numar;
 					numar = _wtoi(buff2);
 					obj.greutate = numar;
 					obj.id = nrObiecte;
-					wcscpy_s(obj.nume, 20, buff3);
+					wcscpy_s(obj.nume, 30, buff3);
 					h[nrObiecte] = obj;
-					/*v[nrObiecte] = obj;*/
+					//v[nrObiecte] = obj;
 					nrObiecte++;
 				}
 			}
 			if ((HWND)lParam == butonDeStart)
 			{
-				WCHAR buff[100];
-				GetWindowText(greutateMaxima, buff, 100);
-				if (wcsnlen_s(buff, 100) == 0)
+				WCHAR buff[300];
+				GetWindowText(greutateMaxima, buff, 300);
+				if (wcsnlen_s(buff, 300) == 0)
 				{
 					MessageBox(hWnd, L"Introduceti Greutatea MAX!", L"ERROR", MB_ICONERROR);
 					break;
@@ -205,16 +206,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				int ancora = SendMessage(lista, LB_GETANCHORINDEX, NULL, NULL);
 				SendMessage(lista, LB_DELETESTRING, ancora, NULL);
 
-				nrObiecte--;
+				
 				obiect aux;
-
+				int idd;
+				/*for (int k = ancora; k < nrObiecte; k++)
+					h[k] = h[k + 1];*/
+				idd = h[ancora].id;
 				aux = h[ancora];
-				h[ancora] = h[nrObiecte];
-				h[nrObiecte] = aux;
+				h[nrObiecte - 1].id = idd;
+				h[ancora] = h[nrObiecte-1];
+				h[nrObiecte-1] = aux;
 
 				/*aux = v[ancora];
 				v[ancora] = v[nrObiecte];
 				v[nrObiecte] = aux;*/
+				nrObiecte--;
+				/*for (int k = 0; k < nrObiecte; k++)
+					h[k].id = k;*/
 			}
 
 			break;

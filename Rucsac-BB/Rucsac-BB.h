@@ -146,7 +146,6 @@ Nod * f(obiect v[], int n, int uz[], int capacitate)
 // Message handler for about box.
 INT_PTR CALLBACK Procedura(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	int pr_max=0;
 	UNREFERENCED_PARAMETER(lParam);
 	switch (message)
 	{
@@ -154,14 +153,15 @@ INT_PTR CALLBACK Procedura(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 	{
 		WCHAR buff[100];
 		WCHAR minibuff[20];
+		int pr_max = 0;
 		for (int i = 0; i < nrObiecte; i++)
 			if (sol.sol[i] == 1)
 			{
 			SendDlgItemMessage(hDlg, IDC_LIST1, LB_ADDSTRING, NULL, (LPARAM)h[i].nume);
 			pr_max += h[i].valoare;
 			}
-		//wchar_t val[10]; _itow(pr_max,val,10);
-		//SendDlgItemMessage(hDlg, IDC_LIST1, LB_ADDSTRING, NULL, (LPARAM)pr_max);
+		//wchar_t val[10]; _itow_s(pr_max,val,10);
+		SetDlgItemInt(hDlg, IDC_EDIT1, pr_max, NULL);
 	}
 		return (INT_PTR)TRUE;
 

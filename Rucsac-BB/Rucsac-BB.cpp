@@ -15,7 +15,7 @@ TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
 HWND greutateMaxima;
 HWND greutatea, valoarea, numele, butonDeAdaugare, butonDeStart;
 HWND lista;
-
+HWND butonStergere;
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -110,7 +110,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Store instance handle in our global variable
 
    hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+      CW_USEDEFAULT, 0, 550, 400, NULL, NULL, hInstance, NULL);
 
    if (!hWnd)
    {
@@ -180,7 +180,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					obj.id = nrObiecte;
 					wcscpy_s(obj.nume, 20, buff3);
 					h[nrObiecte] = obj;
-					v[nrObiecte] = obj;
+					/*v[nrObiecte] = obj;*/
 					nrObiecte++;
 				}
 			}
@@ -191,11 +191,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				if (wcsnlen_s(buff, 100) == 0)
 				{
 					MessageBox(hWnd, L"Introduceti Greutatea MAX!", L"ERROR", MB_ICONERROR);
+					break;
 				}
 				capacitate = _wtoi(buff);
-
+				for (int i = 0; i < nrObiecte; i++)
+				{
+					v[i] = h[i];
+				}
 				solve(v, h, nrObiecte, capacitate);
+			} 
+			if ((HWND)lParam == butonStergere)
+			{
+				int ancora = SendMessage(lista, LB_GETANCHORINDEX, NULL, NULL);
+				SendMessage(lista, LB_DELETESTRING, ancora, NULL);
+
+				nrObiecte--;
+				obiect aux;
+
+				aux = h[ancora];
+				h[ancora] = h[nrObiecte];
+				h[nrObiecte] = aux;
+
+				/*aux = v[ancora];
+				v[ancora] = v[nrObiecte];
+				v[nrObiecte] = aux;*/
 			}
+
 			break;
 		case IDM_ABOUT:
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
@@ -237,6 +258,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			210, 20, 100, 80, hWnd, NULL, hInst, NULL);
 		lista = CreateWindow(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL,
 			320, 20, 210, 300, hWnd, NULL, hInst, NULL);
+		butonStergere = CreateWindow(L"BUTTON", L"Sterge", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | WS_BORDER,
+			120, 200, 100, 80, hWnd, NULL, hInst, NULL);
 	}
 		break;
 	default:

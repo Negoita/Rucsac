@@ -12,7 +12,6 @@ struct Nod{
 	int *uz;
 	int *sol;
 	int next_nod;
-	int pas;
 	int real_score;
 	int incarcatura;
 };
@@ -95,7 +94,7 @@ void pop(coada **prim, coada **ultim)
 
 
 
-Nod * f(obiect v[], int n, int uz[], int capacitate, int pas)
+Nod * f(obiect v[], int n, int uz[], int capacitate)
 {
 	int suma = 0, real_score = 0;
 	int next, ok = 1;
@@ -139,7 +138,6 @@ Nod * f(obiect v[], int n, int uz[], int capacitate, int pas)
 			}
 		}
 		q->score = scor;
-		q->pas = pas + 1;
 		q->real_score = real_score;
 	}
 	return q;
@@ -200,7 +198,7 @@ void solve(obiect v[], obiect *h, int n, int capacitate)
 
 	int *uz = (int*)calloc(n, sizeof(int));
 	int max_score = 0;
-	Nod *q = f(v, n, uz, capacitate, -1);
+	Nod *q = f(v, n, uz, capacitate);
 	Nod p;
 	coada *prim, *ultim;
 	prim = ultim = 0;
@@ -223,11 +221,11 @@ void solve(obiect v[], obiect *h, int n, int capacitate)
 				if (capacitate - p.incarcatura >= v[p.next_nod].greutate)
 				{
 					p.uz[p.next_nod] = 1;
-					q = f(v, n, p.uz, capacitate, p.pas);
+					q = f(v, n, p.uz, capacitate);
 					push(&prim, &ultim, q);
 				}
 				p.uz[p.next_nod] = -1;
-				q = f(v, n, p.uz, capacitate, p.pas);
+				q = f(v, n, p.uz, capacitate);
 				push(&prim, &ultim, q);
 			}
 

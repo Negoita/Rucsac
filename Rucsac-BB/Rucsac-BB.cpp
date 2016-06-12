@@ -153,7 +153,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				WCHAR buff1[100];
 				WCHAR buff2[100];
 				WCHAR buff3[100];
-				WCHAR buff[300];
+				WCHAR buff[1000];
 				int numar;
 				GetWindowText(valoarea, buff1, 100);
 				GetWindowText(greutatea, buff2, 100);
@@ -164,12 +164,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 				else 
 				{
-					wcscpy_s(buff, 300, buff3); 
-					wcscat_s(buff, 300, L": V- ");
-					wcscat_s(buff, 300, buff1);
-					wcscat_s(buff, 300, L"; G- ");
-					wcscat_s(buff, 300, buff2);
-					wcscat_s(buff, 300, L";");
+					wcscpy_s(buff, 1000, buff3); 
+					wcscat_s(buff, 1000, L": V- ");
+					wcscat_s(buff, 1000, buff1);
+					wcscat_s(buff, 1000, L"; G- ");
+					wcscat_s(buff, 1000, buff2);
+					wcscat_s(buff, 1000, L";");
 					SendMessage(lista, LB_ADDSTRING, NULL, (LPARAM)buff);
 
 					obiect obj;

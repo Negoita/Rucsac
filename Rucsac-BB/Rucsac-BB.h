@@ -1,7 +1,7 @@
 #pragma once
 
 #include "resource.h"
-
+#include<stdlib.h>
 #include<stdlib.h>
 
 HINSTANCE hInst;
@@ -36,7 +36,7 @@ obiect ob;
 
 int nrObiecte, capacitate;
 
-
+//coada cu prioritate pun elementul in coada in ordine descrescatoare a scorului(valorii)
 void push(coada **prim, coada **ultim, Nod *q)
 {
 	coada *w, *c, *b = 0;
@@ -79,7 +79,7 @@ Nod* top(coada **prim, coada **ultim){
 	return (*prim)->node;
 }
 
-void pop(coada **prim, coada **ultim)
+void pop(coada **prim, coada **ultim) 
 {
 	coada *c;
 	if ((*prim) != 0)
@@ -148,6 +148,7 @@ Nod * f(obiect v[], int n, int uz[], int capacitate, int pas)
 // Message handler for about box.
 INT_PTR CALLBACK Procedura(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	int pr_max=0;
 	UNREFERENCED_PARAMETER(lParam);
 	switch (message)
 	{
@@ -159,12 +160,15 @@ INT_PTR CALLBACK Procedura(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			if (sol.sol[i] == 1)
 			{
 			SendDlgItemMessage(hDlg, IDC_LIST1, LB_ADDSTRING, NULL, (LPARAM)h[i].nume);
+			pr_max += h[i].valoare;
 			}
+		//wchar_t val[10]; _itow(pr_max,val,10);
+		//SendDlgItemMessage(hDlg, IDC_LIST1, LB_ADDSTRING, NULL, (LPARAM)pr_max);
 	}
 		return (INT_PTR)TRUE;
 
 	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK)
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
 		{
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;

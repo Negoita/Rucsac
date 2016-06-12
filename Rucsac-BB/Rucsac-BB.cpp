@@ -223,20 +223,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 	{
 		greutateMaxima = CreateWindow(L"EDIT", L"", WS_CHILD | WS_VISIBLE | ES_NUMBER | WS_BORDER,
-			120, 20, 60, 20, hWnd, NULL, hInst, NULL);
+			120, 20, 40, 20, hWnd, NULL, hInst, NULL);
 		
 		valoarea = CreateWindow(L"EDIT", L"", WS_CHILD | WS_VISIBLE | ES_NUMBER | WS_BORDER,
-			120, 100, 60, 20, hWnd, NULL, hInst, NULL);
+			120, 100, 40, 20, hWnd, NULL, hInst, NULL);
 		greutatea = CreateWindow(L"EDIT", L"", WS_CHILD | WS_VISIBLE | ES_NUMBER | WS_BORDER,
-			120, 130, 60, 20, hWnd, NULL, hInst, NULL);
+			120, 130, 40, 20, hWnd, NULL, hInst, NULL);
 		numele = CreateWindow(L"EDIT", L"", WS_CHILD | WS_VISIBLE | WS_BORDER,
-			120, 160, 60, 20, hWnd, NULL, hInst, NULL);
+			120, 160, 85, 20, hWnd, NULL, hInst, NULL);
 		butonDeAdaugare = CreateWindow(L"BUTTON", L"Adauga", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | WS_BORDER,
-			190, 100, 100, 80, hWnd, NULL, hInst, NULL);
+			210, 100, 100, 80, hWnd, NULL, hInst, NULL);
 		butonDeStart = CreateWindow(L"BUTTON", L"Alege", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | WS_BORDER,
-			190, 20, 100, 80, hWnd, NULL, hInst, NULL);
+			210, 20, 100, 80, hWnd, NULL, hInst, NULL);
 		lista = CreateWindow(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL,
-			300, 20, 160, 400, hWnd, NULL, hInst, NULL);
+			320, 20, 210, 300, hWnd, NULL, hInst, NULL);
 	}
 		break;
 	default:

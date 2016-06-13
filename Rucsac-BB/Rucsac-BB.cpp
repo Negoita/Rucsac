@@ -211,12 +211,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				int idd;
 				/*for (int k = ancora; k < nrObiecte; k++)
 					h[k] = h[k + 1];*/
-				idd = h[ancora].id;
-				aux = h[ancora];
-				h[nrObiecte - 1].id = idd;
-				h[ancora] = h[nrObiecte-1];
-				h[nrObiecte-1] = aux;
-
+				if (ancora != nrObiecte - 1)
+				{
+					idd = h[ancora].id;
+					aux = h[ancora];
+					h[nrObiecte - 1].id = idd;
+					h[ancora] = h[nrObiecte - 1];
+					h[nrObiecte - 1] = aux;
+				}
 				/*aux = v[ancora];
 				v[ancora] = v[nrObiecte];
 				v[nrObiecte] = aux;*/
@@ -261,13 +263,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		numele = CreateWindow(L"EDIT", L"", WS_CHILD | WS_VISIBLE | WS_BORDER,
 			120, 160, 85, 20, hWnd, NULL, hInst, NULL);
 		butonDeAdaugare = CreateWindow(L"BUTTON", L"Adauga", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | WS_BORDER,
-			210, 100, 100, 80, hWnd, NULL, hInst, NULL);
+			0, 200, 100, 80, hWnd, NULL, hInst, NULL);
 		butonDeStart = CreateWindow(L"BUTTON", L"Alege", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | WS_BORDER,
-			210, 20, 100, 80, hWnd, NULL, hInst, NULL);
+			200, 200, 100, 80, hWnd, NULL, hInst, NULL);
 		lista = CreateWindow(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL,
 			320, 20, 210, 300, hWnd, NULL, hInst, NULL);
 		butonStergere = CreateWindow(L"BUTTON", L"Sterge", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | WS_BORDER,
-			120, 200, 100, 80, hWnd, NULL, hInst, NULL);
+			100, 200, 100, 80, hWnd, NULL, hInst, NULL);
 	}
 		break;
 	default:

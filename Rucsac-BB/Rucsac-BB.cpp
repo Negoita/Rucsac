@@ -110,7 +110,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Store instance handle in our global variable
 
    hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, 550, 400, NULL, NULL, hInstance, NULL);
+      CW_USEDEFAULT, 0, 526, 338, NULL, NULL, hInstance, NULL);
 
    if (!hWnd)
    {
@@ -213,18 +213,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					h[k] = h[k + 1];*/
 				if (ancora != nrObiecte - 1)
 				{
-					idd = h[ancora].id;
-					aux = h[ancora];
-					h[nrObiecte - 1].id = idd;
-					h[ancora] = h[nrObiecte - 1];
-					h[nrObiecte - 1] = aux;
+					//idd = h[ancora].id;
+					//aux = h[ancora];
+					wcscpy_s(h[ancora].nume, h[nrObiecte - 1].nume);
+					h[ancora].greutate = h[nrObiecte - 1].greutate;
+					h[ancora].valoare = h[nrObiecte - 1].valoare;
+					h[ancora].id = h[nrObiecte - 1].id;
+					//h[ancora] = h[nrObiecte - 1];
+					//h[nrObiecte - 1] = aux;
 				}
-				/*aux = v[ancora];
-				v[ancora] = v[nrObiecte];
-				v[nrObiecte] = aux;*/
+				
+			
+				for (int k = 0; k < nrObiecte; k++)
+					h[k].id = k;
 				nrObiecte--;
-				/*for (int k = 0; k < nrObiecte; k++)
-					h[k].id = k;*/
 			}
 
 			break;
@@ -267,7 +269,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		butonDeStart = CreateWindow(L"BUTTON", L"Alege", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | WS_BORDER,
 			200, 200, 100, 80, hWnd, NULL, hInst, NULL);
 		lista = CreateWindow(L"LISTBOX", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL,
-			320, 20, 210, 300, hWnd, NULL, hInst, NULL);
+			300, 20, 210, 270, hWnd, NULL, hInst, NULL);
 		butonStergere = CreateWindow(L"BUTTON", L"Sterge", WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON | WS_BORDER,
 			100, 200, 100, 80, hWnd, NULL, hInst, NULL);
 	}

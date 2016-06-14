@@ -160,7 +160,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				GetWindowText(numele, buff3, 300);
 				if (wcsnlen_s(buff1, 300) == 0 || wcsnlen_s(buff2, 300) == 0 || wcsnlen_s(buff3, 300) == 0)
 				{
-					MessageBox(hWnd, L"Introduceti Valoarile!", L"ERROR", MB_ICONERROR);
+					MessageBox(hWnd, L"Introduceti toate datele despre obiect!", L"ERROR", MB_ICONERROR);
 				}
 				else 
 				{
